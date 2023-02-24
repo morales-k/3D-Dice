@@ -81,4 +81,17 @@ const sun = () => {
 	tl.fromTo(mesh.scale, {z: 0, x: 0, y: 0}, {z: 1, x: 1, y: 1});
 };
 
+const planet = () => {
+	const geometry = new THREE.SphereGeometry(0.5, 64, 64);
+	const material = new THREE.MeshStandardMaterial({
+		color: "red",
+		roughness: 2,
+	});
+	const mesh = new THREE.Mesh(geometry, material);
+	mesh.position.set(5, -2, 0);
+	scene.add(mesh);
+	tl.fromTo(mesh.scale, {z: 0, x: 0, y: 0}, {z: 1, x: 1, y: 1});
+};
+
 sun();
+planet();
