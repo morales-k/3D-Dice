@@ -26,9 +26,9 @@ const sunMat = new THREE.MeshBasicMaterial({
 	map: loader.load("../src/assets/sun.jpg")
 });
 const sunMesh = new THREE.Mesh(sunGeo, sunMat);
-const planet1Mesh = makePlanetMesh([0.5, 64, 64], {color: "red", roughness: 2});
-const planet2Mesh = makePlanetMesh([1, 64, 64], {color: "steelblue", roughness: 4});
-const planet3Mesh = makePlanetMesh([0.8, 64, 64], {color: "rebeccapurple", roughness: 9});
+const planet1Mesh = makePlanetMesh([0.5, 64, 64], "../src/assets/planet1.jpg");
+const planet2Mesh = makePlanetMesh([1, 64, 64], "../src/assets/planet2.jpg");
+const planet3Mesh = makePlanetMesh([0.8, 64, 64], "../src/assets/planet3.jpg");
 
 controls.enableDamping = true;
 controls.enablePan = false;
@@ -42,12 +42,9 @@ renderer.render(scene, camera);
 
 tl.fromTo("h1", {y: "-100%"}, {y: "20%"});
 
-function makePlanetMesh (geoArr, matObj) {
+function makePlanetMesh (geoArr, src) {
 	const planetGeo = new THREE.SphereGeometry(geoArr[0], geoArr[1], geoArr[2]);
-	const planetMat = new THREE.MeshStandardMaterial({
-		color: matObj.color,
-		roughness: matObj.roughness,
-	});
+	const planetMat = new THREE.MeshBasicMaterial({map: loader.load(src)});
 	const planetMesh = new THREE.Mesh(planetGeo, planetMat);
 	return planetMesh;
 };
@@ -68,6 +65,9 @@ const addSun = () => {
 const loop = () => {
 	controls.update();
 	sunMesh.rotateY(0.005);
+	planet1Mesh.rotateY(-0.002);
+	planet2Mesh.rotateY(0.004);
+	planet3Mesh.rotateY(0.006);
     renderer.render(scene, camera);
 	window.requestAnimationFrame(loop);
 };
