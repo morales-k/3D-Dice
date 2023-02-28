@@ -7,8 +7,6 @@ const sizes = {
   height: window.innerHeight
 };
 const scene = new THREE.Scene();
-let lights = [];
-
 const camera = new THREE.PerspectiveCamera(
   45, 
   sizes.width / sizes.height, 
@@ -18,24 +16,10 @@ const camera = new THREE.PerspectiveCamera(
 const canvas = document.querySelector(".webgl");
 const renderer = new THREE.WebGLRenderer({canvas});
 const loader = new THREE.TextureLoader();
-
 const ambient = new THREE.AmbientLight(0xffffff, 0.5);
 const sunLight = new THREE.PointLight(0xffffff, 2, 300);
-scene.add(ambient, sunLight);
-
 const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.enablePan = false;
-controls.enableZoom = false;
-
-camera.position.z = 20;
-scene.add(camera);
-renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(2);
-renderer.render(scene, camera);
-
 const tl = gsap.timeline({defaults: {duration: 1}});
-tl.fromTo("h1", {y: "-100%"}, {y: "20%"});
 
 const sunGeo = new THREE.SphereGeometry(3, 64, 64);
 const sunMat = new THREE.MeshBasicMaterial({
@@ -45,6 +29,18 @@ const sunMesh = new THREE.Mesh(sunGeo, sunMat);
 const planet1Mesh = makePlanetMesh([0.5, 64, 64], {color: "red", roughness: 2});
 const planet2Mesh = makePlanetMesh([1, 64, 64], {color: "steelblue", roughness: 4});
 const planet3Mesh = makePlanetMesh([0.8, 64, 64], {color: "rebeccapurple", roughness: 9});
+
+controls.enableDamping = true;
+controls.enablePan = false;
+controls.enableZoom = false;
+camera.position.z = 20;
+scene.add(ambient, sunLight);
+scene.add(camera);
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(2);
+renderer.render(scene, camera);
+
+tl.fromTo("h1", {y: "-100%"}, {y: "20%"});
 
 function makePlanetMesh (geoArr, matObj) {
 	const planetGeo = new THREE.SphereGeometry(geoArr[0], geoArr[1], geoArr[2]);
